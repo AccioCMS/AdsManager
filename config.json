@@ -1,0 +1,27 @@
+{
+  "title": "Accio Ads Manager",
+  "namespace": "Accio/AdsManager",
+  "organization": "Accio",
+  "baseURL": "accio/ads-manager",
+  "description ": "Accio Ads manager plugin",
+  "version": "1.0.0",
+  "icon": "pencil",
+
+  "author" : [
+    {
+      "name" : "Accio LLC",
+      "email": "jetmir.haxhisefa@accio.com"
+    }
+  ],
+
+  "mix": {
+    "app": "plugins/Accio/AdsManager/resources/assets/js/app.js",
+    "public": "plugins/Accio/AdsManager/public/js"
+  },
+
+  "permissions":{
+    "defaultPermissions": [
+      "create", "read", "update", "delete"
+    ]
+  }
+}

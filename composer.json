@@ -1,0 +1,7 @@
+{
+  "name": "acciocms/ads-manager-plugin",
+  "description": "The official Accio Ads Manager plugin",
+  "keywords": ["accio", "ads"],
+  "license": "MIT",
+  "type": "project"
+}
