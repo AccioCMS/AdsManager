@@ -3,8 +3,8 @@
 if (!function_exists("ad")){
     function ad(string $slug, string $belongsTo, $belongsToID, string $displayOn = 'all', array $postIDs = []){
 
-        if(\Illuminate\Support\Facades\Auth::guard('admin')->check()){
-            if(isset($_GET['ads']) && $_GET['ads'] == 1){
+        if(isset($_GET['ads']) && $_GET['ads'] == 1){
+            if(\Illuminate\Support\Facades\Auth::guard('admin')->check()){
                 $html = "<div class='ad-placeholder' ";
                 $html .= "style='width: 150px;
                               color: #fff;
