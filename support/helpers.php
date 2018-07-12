@@ -1,6 +1,17 @@
 <?php
-
+use Plugins\Accio\AdsManager\Models\Ad;
 if (!function_exists("ad")){
+    /**
+     * Show ad.
+     *
+     * @param string $slug
+     * @param string $belongsTo
+     * @param $belongsToID
+     * @param string $displayOn
+     * @param array $postIDs
+     * @return string
+     * @throws Exception
+     */
     function ad(string $slug, string $belongsTo, $belongsToID, string $displayOn = 'all', array $postIDs = []){
 
         if(isset($_GET['ads']) && $_GET['ads'] == 1){
@@ -23,14 +34,15 @@ if (!function_exists("ad")){
             }
         }
 
-        $ad = \Plugins\Accio\AdsManager\Models\Ad::getFromCache()
-            ->where("slug", $slug)
-            ->where("belongsTo", $belongsTo)
-            ->where("belongsToID", $belongsToID)
-            ->where("displayOn", $displayOn);
+        $ad = Ad::cache("accio_ads_manager")
+          ->getItems()
+          ->where("slug", $slug)
+          ->where("belongsTo", $belongsTo)
+          ->where("belongsToID", $belongsToID)
+          ->where("displayOn", $displayOn);
 
         if(count($postIDs)){
-            $ad->whereIn('postIDs', $postIDs);
+            $ad = $ad->whereIn('postIDs', $postIDs);
         }
 
         $ad = $ad->first();

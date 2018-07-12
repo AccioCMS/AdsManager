@@ -2,10 +2,13 @@
 
 namespace Plugins\Accio\AdsManager\Models;
 
+use Accio\App\Traits\CacheTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Cache;
 
 class Ad extends Model{
+    use CacheTrait;
+
     /**
      * @var string table name
      */
@@ -25,15 +28,29 @@ class Ad extends Model{
         'postIDs' => 'object'
     ];
 
-    public static function getFromCache(){
-        if(!Cache::has("accio_ads_manager")){
-            $ads = self::all();
-            Cache::forever("accio_ads_manager", $ads);
-
-            return $ads;
-        }
-
-        return Cache::get("accio_ads_manager");
+    public static function generateCache(){
+        $data = self::all()->toArray();
+        Cache::forever("accio_ads_manager", $data);
+        return $data;
     }
 
+    /**
+     * Update cache
+     *
+     * @param object $itemObj
+     * @param string $mode created, updating, updated, deleting, deleted
+     *
+     * @throws \Exception
+     */
+    private function updateCache($itemObj, string $mode){
+
+        // Get post data
+        switch ($mode) {
+            case 'created':
+            case 'updated':
+            case 'deleted':
+                $this->cache("accio_ads_manager")->refreshState($itemObj, $mode);
+                break;
+        }
+    }
 }
