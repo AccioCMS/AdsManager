@@ -35,7 +35,7 @@ if (!function_exists("ad")){
         }
 
         $ad = Ad::cache("accio_ads_manager")
-          ->getItems()
+          ->collect()
           ->where("slug", $slug)
           ->where("belongsTo", $belongsTo)
           ->where("belongsToID", $belongsToID)

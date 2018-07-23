@@ -3,11 +3,12 @@
 namespace Plugins\Accio\AdsManager\Models;
 
 use Accio\App\Traits\CacheTrait;
+use Accio\App\Traits\CollectionTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Cache;
 
 class Ad extends Model{
-    use CacheTrait;
+    use CacheTrait, CollectionTrait;
 
     /**
      * @var string table name
@@ -25,12 +26,11 @@ class Ad extends Model{
     protected $fillable = ['title', 'slug', 'belongsTo', 'belongsToID', 'displayOn', 'embed', 'postIDs'];
 
     protected $casts = [
-        'postIDs' => 'object'
+      'postIDs' => 'object'
     ];
 
-    public static function generateCache(){
-        $data = self::all()->toArray();
-        Cache::forever("accio_ads_manager", $data);
+    public function generateCache(){
+        $data = self::all();
         return $data;
     }
 
@@ -49,7 +49,7 @@ class Ad extends Model{
             case 'created':
             case 'updated':
             case 'deleted':
-                $this->cache("accio_ads_manager")->refreshState($itemObj, $mode);
+                $this->cache("accio_ads_manager", null, false)->refreshState($itemObj, $mode);
                 break;
         }
     }
